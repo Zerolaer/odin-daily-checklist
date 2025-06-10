@@ -431,7 +431,8 @@
           label.setAttribute('for', `${char}-task-${index}`);
           label.textContent = task.text;
           if (task.done) {
-            label.style.opacity = '0.5';
+            label.style.opacity = '0.4';
+            label.style.textDecoration = 'line-through';
           }
           const removeBtn = document.createElement('span');
           removeBtn.textContent = '×';
