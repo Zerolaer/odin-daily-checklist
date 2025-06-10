@@ -268,7 +268,10 @@
 
     function resetAllTasks() {
       const tasks = loadTasks();
+      let count = 0;
       for (const char in tasks) {
+        if (count >= maxCharacters) break;
+        count++;
         tasks[char].forEach(t => t.done = false);
       }
       saveTasks(tasks);
@@ -316,6 +319,14 @@
       const tasks = loadTasks();
       const container = document.getElementById('tracker');
       container.innerHTML = '';
+
+      const characterCount = Object.keys(tasks).length;
+      const addButton = document.querySelector('button[onclick="openCharacterModal()"]');
+      if (addButton) {
+        addButton.disabled = characterCount >= 5;
+        addButton.style.opacity = characterCount >= 5 ? '0.5' : '1';
+        addButton.style.cursor = characterCount >= 5 ? 'not-allowed' : 'pointer';
+      }
 
       document.addEventListener('click', e => {
         document.querySelectorAll('.dropdown').forEach(drop => {
@@ -394,6 +405,8 @@
         copy.textContent = 'Копировать';
         copy.onclick = () => {
           const tasks = loadTasks();
+          const totalCharacters = Object.keys(tasks).length;
+          if (totalCharacters >= 5) return;
           const newName = `${char} копия`;
           if (!tasks[newName]) {
             tasks[newName] = JSON.parse(JSON.stringify(tasks[char]));
@@ -414,6 +427,31 @@
         tasks[char].forEach((task, index) => {
           const row = document.createElement('div');
           row.className = 'task';
+          row.draggable = true;
+          row.dataset.index = index;
+          row.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', index);
+            e.dataTransfer.effectAllowed = 'move';
+          });
+          row.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            row.style.border = '1px dashed #666';
+          });
+          row.addEventListener('dragleave', () => {
+            row.style.border = 'none';
+          });
+          row.addEventListener('drop', (e) => {
+            e.preventDefault();
+            row.style.border = 'none';
+            const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
+            const toIndex = index;
+            if (fromIndex !== toIndex) {
+              const movedItem = tasks[char].splice(fromIndex, 1)[0];
+              tasks[char].splice(toIndex, 0, movedItem);
+              saveTasks(tasks);
+              render();
+            }
+          });
           const checkbox = document.createElement('input');
           checkbox.type = 'checkbox';
           checkbox.id = `${char}-task-${index}`;
