@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Odin Valhalla Rising Daily Checklist</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #101010;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #181818;
+      border-bottom: 1px solid #333;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px #000;
+    }
+    .header-buttons button {
+      margin-left: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #333;
+      background-color: #2b2b2b;
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .header-buttons button:hover {
+      background-color: #3b3b3b;
+    }
+    main {
+      background: url('https://gcdn.pcpf.kakaogames.com/ui-contents/gbod/brandingBanner/gbod_brandingBanner_1744772608052_65.webp') no-repeat center center;
+      background-size: cover;
+      flex-grow: 1;
+      position: relative;
+    }
+    main::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 0;
+    }
+    .grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+      align-items: start;
+    }
+    .character {
+      background: #181818;
+      padding: 0;
+      border: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+    }
+    .character-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #222;
+      padding: 0.75rem 1rem;
+    }
+    .character-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .character h2 {
+      color: #ffffff;
+      margin: 0;
+      font-size: 1.1rem;
+      text-shadow: 1px 1px 2px #000;
+    }
+    .task-counter {
+      background: #444;
+      color: #fff;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropbtn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #2c2c2c;
+      min-width: 120px;
+      border: 1px solid #444;
+      z-index: 1;
+      right: 0;
+    }
+    .dropdown-content button {
+      width: 100%;
+      text-align: left;
+      background-color: transparent;
+      color: #ffffff;
+      padding: 0.5rem;
+      border: none;
+    }
+    .dropdown-content button:hover {
+      background-color: #444;
+    }
+    .dropdown.open .dropdown-content {
+      display: block;
+    }
+    .task {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 0.5rem;
+    }
+    .task input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+    .task label {
+      flex: 1;
+    }
+    .add-task-character {
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .add-task-character input {
+      width: 100%;
+      max-width: 90%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #333;
+      background: #2b2b2b;
+      color: #fff;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      background: #181818;
+      color: #666;
+      border-top: 1px solid #333;
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+    .modal-content {
+      background: #2b2b2b;
+      padding: 2rem;
+      border: 1px solid #555;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      position: relative;
+    }
+    .modal-content input {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      background: #1a1a1a;
+      color: white;
+      border: 1px solid #444;
+    }
+    .modal-content button {
+      padding: 0.5rem;
+      background: #444;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .modal-content button:hover {
+      background: #555;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Odin Valhalla Rising Daily Checklist</h1>
+    <div class="header-buttons">
+      <button onclick="openCharacterModal()">Добавить персонажа</button>
+      <button onclick="openResetModal()">Обновить день</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid" id="tracker"></div>
+  </main>
+
+  <footer>
+    powered by димаМсК
+  </footer>
+
+  <div class="modal" id="characterModal">
+    <div class="modal-content">
+      <input type="text" id="characterName" placeholder="Имя персонажа">
+      <div style="display: flex; gap: 1rem; justify-content: space-between;">
+        <button onclick="addCharacterFromModal()">Создать</button>
+        <button onclick="closeCharacterModal()">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="resetModal">
+    <div class="modal-content">
+      <p>Действительно ли вы хотите обновить день?</p>
+      <div style="display: flex; gap: 1rem; justify-content: space-between;">
+        <button onclick="resetConfirmed()">Обновить</button>
+        <button onclick="closeResetModal()">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'odin_tasks';
+
+    function loadTasks() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    }
+
+    function saveTasks(tasks) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    }
+
+    function resetAllTasks() {
+      const tasks = loadTasks();
+      for (const char in tasks) {
+        tasks[char].forEach(t => t.done = false);
+      }
+      saveTasks(tasks);
+      render();
+    }
+
+    function openCharacterModal() {
+      document.getElementById('characterModal').style.display = 'flex';
+    }
+    function closeCharacterModal() {
+      document.getElementById('characterModal').style.display = 'none';
+    }
+    function addCharacterFromModal() {
+      const name = document.getElementById('characterName').value.trim();
+      if (!name) return;
+      const tasks = loadTasks();
+      if (!tasks[name]) {
+        tasks[name] = [];
+        saveTasks(tasks);
+        render();
+      }
+      document.getElementById('characterName').value = '';
+      closeCharacterModal();
+    }
+
+    function openResetModal() {
+      document.getElementById('resetModal').style.display = 'flex';
+    }
+    function closeResetModal() {
+      document.getElementById('resetModal').style.display = 'none';
+    }
+    function resetConfirmed() {
+      resetAllTasks();
+      closeResetModal();
+    }
+
+    function deleteCharacter(name) {
+      const tasks = loadTasks();
+      delete tasks[name];
+      saveTasks(tasks);
+      render();
+    }
+
+    function render() {
+      const tasks = loadTasks();
+      const container = document.getElementById('tracker');
+      container.innerHTML = '';
+
+      document.addEventListener('click', e => {
+        document.querySelectorAll('.dropdown').forEach(drop => {
+          if (!drop.contains(e.target)) drop.classList.remove('open');
+        });
+      });
+
+      for (const char in tasks) {
+        const block = document.createElement('div');
+        block.className = 'character';
+
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'character-header';
+
+        const titleWrap = document.createElement('div');
+        titleWrap.className = 'character-title';
+
+        const countDone = tasks[char].filter(t => t.done).length;
+        const countTotal = tasks[char].length;
+
+        const bubble = document.createElement('span');
+        bubble.className = 'task-counter';
+        bubble.textContent = `${countDone}/${countTotal}`;
+        if (countDone === countTotal && countTotal > 0) {
+          bubble.style.backgroundColor = 'green';
+          bubble.style.color = 'white';
+        }
+
+        const title = document.createElement('h2');
+        const editable = document.createElement('input');
+        editable.type = 'text';
+        editable.value = char;
+        editable.style.display = 'none';
+        editable.onkeydown = e => {
+          if (e.key === 'Enter') {
+            const newName = editable.value.trim();
+            if (newName && newName !== char) {
+              const tasks = loadTasks();
+              if (!tasks[newName]) {
+                tasks[newName] = tasks[char];
+                delete tasks[char];
+                saveTasks(tasks);
+                render();
+              }
+            }
+          }
+        };
+        title.textContent = char;
+        title.style.cursor = 'pointer';
+        title.onclick = () => {
+          title.style.display = 'none';
+          editable.style.display = 'inline-block';
+          editable.focus();
+        };
+
+        titleWrap.appendChild(bubble);
+        titleWrap.appendChild(title);
+        titleWrap.appendChild(editable);
+
+        const dropdown = document.createElement('div');
+        dropdown.className = 'dropdown';
+        const button = document.createElement('button');
+        button.className = 'dropbtn';
+        button.textContent = '⋮';
+        button.onclick = e => {
+          e.stopPropagation();
+          dropdown.classList.toggle('open');
+        };
+
+        const menu = document.createElement('div');
+        menu.className = 'dropdown-content';
+        const del = document.createElement('button');
+        del.textContent = 'Удалить';
+        del.onclick = () => deleteCharacter(char);
+        const copy = document.createElement('button');
+        copy.textContent = 'Копировать';
+        copy.onclick = () => {
+          const tasks = loadTasks();
+          const newName = `${char} копия`;
+          if (!tasks[newName]) {
+            tasks[newName] = JSON.parse(JSON.stringify(tasks[char]));
+            saveTasks(tasks);
+            render();
+          }
+        };
+        menu.appendChild(copy);
+        menu.appendChild(del);
+
+        dropdown.appendChild(button);
+        dropdown.appendChild(menu);
+
+        headerDiv.appendChild(titleWrap);
+        headerDiv.appendChild(dropdown);
+        block.appendChild(headerDiv);
+
+        tasks[char].forEach((task, index) => {
+          const row = document.createElement('div');
+          row.className = 'task';
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.id = `${char}-task-${index}`;
+          checkbox.checked = task.done;
+          if (task.done) {
+            checkbox.style.accentColor = 'green';
+            checkbox.style.backgroundColor = 'green';
+          }
+          checkbox.onchange = () => {
+            task.done = checkbox.checked;
+            saveTasks(tasks);
+            render();
+          };
+          const label = document.createElement('label');
+          label.setAttribute('for', `${char}-task-${index}`);
+          label.textContent = task.text;
+          if (task.done) {
+            label.style.opacity = '0.5';
+          }
+          const removeBtn = document.createElement('span');
+          removeBtn.textContent = '×';
+          removeBtn.style.marginLeft = '0.5rem';
+          removeBtn.style.cursor = 'pointer';
+          removeBtn.style.opacity = '0';
+          removeBtn.style.transition = 'opacity 0.2s';
+          removeBtn.onclick = () => {
+            tasks[char].splice(index, 1);
+            saveTasks(tasks);
+            render();
+          };
+          row.onmouseenter = () => removeBtn.style.opacity = '1';
+          row.onmouseleave = () => removeBtn.style.opacity = '0';
+          row.appendChild(checkbox);
+          row.appendChild(label);
+          row.appendChild(removeBtn);
+          block.appendChild(row);
+        });
+
+        const input = document.createElement('input');
+        input.placeholder = 'Новая задача';
+        input.onkeydown = e => {
+          if (e.key === 'Enter') {
+            const text = input.value.trim();
+            if (!text) return;
+            tasks[char].push({ text, done: false });
+            saveTasks(tasks);
+            render();
+            const currentCharacter = char;
+            setTimeout(() => {
+              const inputs = document.querySelectorAll('.character');
+              inputs.forEach(block => {
+                const header = block.querySelector('.character-header h2');
+                if (header && header.textContent === currentCharacter) {
+                  const inputField = block.querySelector('.add-task-character input');
+                  if (inputField) inputField.focus();
+                }
+              });
+            }, 0);
+          }
+        };
+
+        const addTaskDiv = document.createElement('div');
+        addTaskDiv.className = 'add-task-character';
+        addTaskDiv.appendChild(input);
+
+        block.appendChild(addTaskDiv);
+        container.appendChild(block);
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
