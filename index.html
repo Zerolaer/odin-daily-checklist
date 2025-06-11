@@ -257,6 +257,7 @@
 
   <script>
     const STORAGE_KEY = 'odin_tasks';
+    const maxCharacters = 5; // Максимальное число персонажей
 
     function loadTasks() {
       return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
