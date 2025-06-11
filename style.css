@@ -1,0 +1,211 @@
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #101010;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #181818;
+      border-bottom: 1px solid #333;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px #000;
+    }
+    .header-buttons button {
+      margin-left: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #333;
+      background-color: #2b2b2b;
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .header-buttons button:hover {
+      background-color: #3b3b3b;
+    }
+    main {
+      background: url('https://gcdn.pcpf.kakaogames.com/ui-contents/gbod/brandingBanner/gbod_brandingBanner_1744772608052_65.webp') no-repeat center center;
+      background-size: cover;
+      flex-grow: 1;
+      position: relative;
+    }
+    main::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 0;
+    }
+    .grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+      align-items: start;
+    }
+    .character {
+      background: #181818;
+      padding: 0;
+      border: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+    }
+    .character-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #222;
+      padding: 0.75rem 1rem;
+    }
+    .character-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .character h2 {
+      color: #ffffff;
+      margin: 0;
+      font-size: 1.1rem;
+      text-shadow: 1px 1px 2px #000;
+    }
+    .task-counter {
+      background: #444;
+      color: #fff;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropbtn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #2c2c2c;
+      min-width: 120px;
+      border: 1px solid #444;
+      z-index: 1;
+      right: 0;
+    }
+    .dropdown-content button {
+      width: 100%;
+      text-align: left;
+      background-color: transparent;
+      color: #ffffff;
+      padding: 0.5rem;
+      border: none;
+    }
+    .dropdown-content button:hover {
+      background-color: #444;
+    }
+    .dropdown.open .dropdown-content {
+      display: block;
+    }
+    .task {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 0.5rem;
+    }
+    .task input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+    .task label {
+      flex: 1;
+    }
+    .add-task-character {
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .add-task-character input {
+      width: 100%;
+      max-width: 90%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #333;
+      background: #2b2b2b;
+      color: #fff;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      background: #181818;
+      color: #666;
+      border-top: 1px solid #333;
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+    .modal-content {
+      background: #2b2b2b;
+      padding: 2rem;
+      border: 1px solid #555;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      position: relative;
+    }
+    .modal-content input {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      background: #1a1a1a;
+      color: white;
+      border: 1px solid #444;
+    }
+    .modal-content button {
+      padding: 0.5rem;
+      background: #444;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .modal-content button:hover {
+      background: #555;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
